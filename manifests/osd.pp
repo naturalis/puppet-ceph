@@ -3,8 +3,8 @@ class ceph::mon (
 	$monitorkey,
 	$adminkey,
 	$fsid,
-	$auto_ceph_conf		= 'true'
-	$manual_crushmap	= 'false'
+	$auto_ceph_conf		= 'true',
+	$manual_crushmap	= 'false',
 	$crush_root			= 'default',
 	$datacenter,
 	$room,
