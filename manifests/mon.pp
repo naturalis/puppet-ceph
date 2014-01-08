@@ -39,7 +39,7 @@ class ceph::mon (
   file { "${fqdn}-temp-keyring":
      path    => '/etc/ceph/monitor.keyring',
      ensure  => 'file',
-     content => template('ceph/monitor.keyring.erg'),
+     content => template('ceph/monitor.keyring.erb'),
   }
 
   file { "${fqdn}-ceph-mon-directory":
