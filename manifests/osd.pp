@@ -21,10 +21,9 @@ class ceph::osd (
      content => template('ceph/monitor.keyring.erb'),
   }
 
-  
-  ceph::osd::generate{["/dev/sdc","/dev/sdd"] :
-  	osd_id  => reserve_ceph_osd_id(),
-  }
+  Ini_setting <<| tag == "cephconf-${fsid}" |>>
+
+  ceph::osd::generate{["/dev/sdc","/dev/sdd"] : }
 
   #$osdnumber = reserve_ceph_osd_id()
   

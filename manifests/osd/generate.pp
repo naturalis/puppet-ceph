@@ -1,6 +1,6 @@
 define ceph::osd::generate (
-    $osd_id,
-	$disk  		= $title
+    $osd_id     = reserve_ceph_osd_id(),
+	$disk  		= $title,
 )
 {
 
