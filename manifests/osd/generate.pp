@@ -1,6 +1,6 @@
 define ceph::osd::generate (
     $osd_id,
-	$disk  		= $tile
+	$disk  		= $title
 )
 {
 
