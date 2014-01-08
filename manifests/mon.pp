@@ -22,7 +22,7 @@ class ceph::mon (
       setting => "mon addr" ,
       value   => "${ipaddress}:${monitor_port}",
       ensure  => present,
-      tag     => 'cephconf'
+      tag     => "cephconf-${fsid}"
   }
 
   @@ini_setting { "ceph-config-${fqdn}-mon-host":
@@ -31,10 +31,10 @@ class ceph::mon (
       setting => "host" ,
       value   => "${hostname}",
       ensure  => present,
-      tag     => 'cephconf'
+      tag     => "cephconf-${fsid}"
   }
 
-  Ini_setting <<| tag == 'cephconf' |>>
+  Ini_setting <<| tag == "cephconf-${fsid}" |>>
 
   file { "${fqdn}-temp-keyring":
      path    => '/etc/ceph/monitor.keyring',
