@@ -19,9 +19,14 @@ class ceph::package(
     require => Exec['add-ceph-repo-key'],
   }
 
+  exec { 'update-apt-get':
+    command => '/usr/bin/apt-get update',
+    require => Exec['add-ceph-repo']
+  }
+  
   package { 'ceph':
     ensure => installed,
-    require => Exec['add-ceph-repo']
+    require => Exec['update-apt-get']
   }
   
 }
