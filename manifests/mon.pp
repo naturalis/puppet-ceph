@@ -3,9 +3,9 @@ class ceph::mon (
 	$monitorkey,
 	$adminkey,
 	$fsid,
-	$auto_ceph_conf		= 'true'
-	$manual_crushmap	= 'false'
-	$monitor_port 		= '6789'
+	$auto_ceph_conf		= 'true',
+	$manual_crushmap	= 'false',
+	$monitor_port 		= '6789',
 
 )
 {
