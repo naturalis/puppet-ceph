@@ -49,7 +49,7 @@ class ceph::mon (
   }
 
   exec { "generate-admin-key": 
-    command => "/usr/bin/ceph-authtool /etc/ceph/monitor.keyring --gen-key -n client.admin --set-uid=0 --cap mon 'allow *' --cap osd 'allow *' --cap mds 'allow'",
+    command => "/usr/bin/ceph-authtool /etc/ceph/monitor.keyring --add-key ${adminkey} -n client.admin --set-uid=0 --cap mon 'allow *' --cap osd 'allow *' --cap mds 'allow'",
     require => Exec['generate-monitor-key']
   }
 

@@ -1,5 +1,5 @@
 class ceph::package(
-  $ceph_release = 'dumpling'
+  $ceph_release = 'emperor'
 )
 {
 
