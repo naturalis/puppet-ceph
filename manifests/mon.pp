@@ -61,7 +61,7 @@ class ceph::mon (
                 Ini_setting["ceph-config-${fqdn}-mon-ip"]]
   }
   
-  service {"ceph-mon-service":
+  service {"ceph":
     ensure  => 'running',
     enable  => 'true',
     start   => 'service ceph start mon',
