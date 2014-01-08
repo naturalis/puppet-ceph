@@ -15,7 +15,7 @@ class ceph::package(
   }
   
   exec { 'add-ceph-repo':
-    command => "echo deb http://ceph.com/debian-${ceph_release}/ $(lsb_release -sc) main | sudo tee /etc/apt/sources.list.d/ceph.list",
+    command => "/bin/echo deb http://ceph.com/debian-${ceph_release}/ $(lsb_release -sc) main | sudo tee /etc/apt/sources.list.d/ceph.list",
     require => Exec['add-ceph-repo-key'],
   }
 
