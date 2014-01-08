@@ -15,11 +15,21 @@ class ceph::osd (
 )
 {
 
-	$osdnumber = reserve_ceph_osd_id()
-	notify { $osdnumber : 
-		message => "${osdnumber}"
-	}
-	# JOBS #
+  file { "${fqdn}-osd-temp-keyring":
+     path    => '/tmp/monitor.keyring',
+     ensure  => 'file',
+     content => template('ceph/monitor.keyring.erb'),
+  }
+
+  
+  ceph::osd::generate{["/dev/sdc","/dev/sdd"] :
+  	osd_id  => reserve_ceph_osd_id(),
+  	require => File["${fqdn}-temp-keyring"] 
+  }
+
+  #$osdnumber = reserve_ceph_osd_id()
+  
+  	# JOBS #
 	# * calculate osd number
 	# * send resource for ceph_conf
 	# * collect resource for ceph_conf
