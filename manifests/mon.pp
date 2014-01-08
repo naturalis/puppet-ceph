@@ -36,22 +36,22 @@ class ceph::mon (
 
   Ini_setting <<| tag == "cephconf-${fsid}" |>>
 
-  #file { "${fqdn}-temp-keyring":
-  #   path    => '/etc/ceph/monitor.keyring',
-  #   ensure  => 'file',
-  #   content => template('ceph/monitor.keyring.erb'),
+  file { "${fqdn}-temp-keyring":
+     path    => '/tmp/monitor.keyring',
+     ensure  => 'file',
+     content => template('ceph/monitor.keyring.erb'),
+  }
+
+  
+  
+  #exec { "generate-monitor-key": 
+  #  command => "/usr/bin/ceph-authtool --create-keyring --add-key ${monitorkey}  -n mon. /etc/ceph/monitor.keyring",
   #}
 
-  
-  
-  exec { "generate-monitor-key": 
-    command => "/usr/bin/ceph-authtool --create-keyring --add-key ${monitorkey}  -n mon. /etc/ceph/monitor.keyring",
-  }
-
-  exec { "generate-admin-key": 
-    command => "/usr/bin/ceph-authtool /etc/ceph/monitor.keyring --add-key ${adminkey} -n client.admin --set-uid=0 --cap mon 'allow *' --cap osd 'allow *' --cap mds 'allow'",
-    require => Exec['generate-monitor-key']
-  }
+  #exec { "generate-admin-key": 
+  #  command => "/usr/bin/ceph-authtool /etc/ceph/monitor.keyring --add-key ${adminkey} -n client.admin --set-uid=0 --cap mon 'allow *' --cap osd 'allow *' --cap mds 'allow'",
+  #  require => Exec['generate-monitor-key']
+  #}
 
   file { "${fqdn}-ceph-mon-base-directory":
     path   => "/var/lib/ceph/mon",
@@ -65,9 +65,9 @@ class ceph::mon (
   }
 
   exec { "generate-monitor-${hostname}":
-    command => "/usr/bin/ceph-mon -i ${hostname} --mkfs --fsid ${fsid} --keyring /etc/ceph/monitor.keyring",
+    command => "/usr/bin/ceph-mon -i ${hostname} --mkfs --fsid ${fsid} --keyring /tmp/monitor.keyring",
     require => [File["${fqdn}-ceph-mon-directory"],
-                Exec["generate-monitor-key"],
+                File["${fqdn}-temp-keyring"],
                 Ini_setting["ceph-config-${fqdn}-mon-host"],
                 Ini_setting["ceph-config-${fqdn}-mon-ip"]]
   }
