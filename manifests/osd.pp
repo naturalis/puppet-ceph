@@ -23,8 +23,7 @@ class ceph::osd (
 
   
   ceph::osd::generate{["/dev/sdc","/dev/sdd"] :
-  	osd_id  => reserve_ceph_osd_id(),
-  	require => File["${fqdn}-osd-temp-keyring"] 
+  	osd_id  => "3",
   }
 
   #$osdnumber = reserve_ceph_osd_id()
