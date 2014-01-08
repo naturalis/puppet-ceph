@@ -45,7 +45,7 @@ class ceph::mon (
   
   
   exec { "generate-monitor-key": 
-    command => "/usr/bin/ceph-authtool --create-keyring --add-key ${monitorkey}  -n mon. /tmp/monitor.keyring",
+    command => "/usr/bin/ceph-authtool --create-keyring --add-key ${monitorkey}  -n mon. /etc/ceph/monitor.keyring",
   }
 
   exec { "generate-admin-key": 
@@ -65,7 +65,7 @@ class ceph::mon (
   }
 
   exec { "generate-monitor-${hostname}":
-    command => "/usr/bin/ceph-mon -i ${hostname} --mkfs --fsid ${fsid} --keyring /tmp/monitor.keyring",
+    command => "/usr/bin/ceph-mon -i ${hostname} --mkfs --fsid ${fsid} --keyring /etc/ceph/monitor.keyring",
     require => [File["${fqdn}-ceph-mon-directory"],
                 Exec["generate-monitor-key"],
                 Ini_setting["ceph-config-${fqdn}-mon-host"],
