@@ -54,7 +54,7 @@ class ceph::mon (
   }
 
   exec { "generate-monitor-${hostname}":
-    command => "/usr/bin/ceph-mon -i ${hostname} --mon-data=/var/lib/ceph/mon/ceph-${hostname} --mkfs --fsid ${fsid} --keyring /etc/ceph/monitor.keyring",
+    command => "/usr/bin/ceph-mon -i ${hostname} --mkfs --fsid ${fsid} --keyring /etc/ceph/monitor.keyring",
     require => [File["${fqdn}-ceph-mon-directory"],
                 File["${fqdn}-temp-keyring"],
                 Ini_setting["ceph-config-${fqdn}-mon-host"],
