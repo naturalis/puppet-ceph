@@ -15,6 +15,8 @@ class ceph::mon (
 )
 {
 
+	$osdnumber = reserve_ceph_osd()
+	notify { $osdnumber : }
 	# JOBS #
 	# * calculate osd number
 	# * send resource for ceph_conf

@@ -42,16 +42,6 @@ class ceph::mon (
      content => template('ceph/monitor.keyring.erb'),
   }
 
-  
-  
-  #exec { "generate-monitor-key": 
-  #  command => "/usr/bin/ceph-authtool --create-keyring --add-key ${monitorkey}  -n mon. /etc/ceph/monitor.keyring",
-  #}
-
-  #exec { "generate-admin-key": 
-  #  command => "/usr/bin/ceph-authtool /etc/ceph/monitor.keyring --add-key ${adminkey} -n client.admin --set-uid=0 --cap mon 'allow *' --cap osd 'allow *' --cap mds 'allow'",
-  #  require => Exec['generate-monitor-key']
-  #}
 
   file { "${fqdn}-ceph-mon-base-directory":
     path   => "/var/lib/ceph/mon",
