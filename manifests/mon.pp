@@ -42,9 +42,15 @@ class ceph::mon (
      content => template('ceph/monitor.keyring.erb'),
   }
 
-  file { "${fqdn}-ceph-mon-directory":
-    path   => "/var/lib/ceph/mon/ceph-${hostname}",
+  file { "${fqdn}-ceph-mon-base-directory":
+    path   => "/var/lib/ceph/mon",
     ensure => "directory",
+  }
+
+  file { "${fqdn}-ceph-mon-directory":
+    path    => "/var/lib/ceph/mon/ceph-${hostname}",
+    ensure  => "directory",
+    require => File["${fqdn}-ceph-mon-base-directory"]
   }
 
   exec { "generate-monitor-${hostname}":
