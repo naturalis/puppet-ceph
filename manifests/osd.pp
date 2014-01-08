@@ -23,7 +23,7 @@ class ceph::osd (
 
   
   ceph::osd::generate{["/dev/sdc","/dev/sdd"] :
-  	osd_id  => "3",
+  	osd_id  => reserve_ceph_osd_id(),
   }
 
   #$osdnumber = reserve_ceph_osd_id()
