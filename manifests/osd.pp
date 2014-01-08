@@ -1,4 +1,4 @@
-class ceph::mon (
+class ceph::osd (
 
 	$monitorkey,
 	$adminkey,
