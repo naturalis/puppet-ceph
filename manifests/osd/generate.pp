@@ -4,7 +4,7 @@ define ceph::osd::generate (
 )
 {
 
-  notify {"osdnumber":
+  notify {"osdnumber-${osd_id}-${disk}":
     message => $osd_id,
     require => File["${fqdn}-osd-temp-keyring"]
   }
