@@ -43,19 +43,15 @@ class ceph::mon (
   #}
 
   
-  exec { "generate-admin-key": 
-    command => "/usr/bin/ceph auth get-or-create client.admin mon 'allow *' mds 'allow *' osd 'allow *' -o /etc/ceph/keyring",
-  }
-
+  
   exec { "generate-monitor-key": 
     command => "/usr/bin/ceph-authtool --create-keyring --add-key ${monitorkey}  -n mon. /tmp/monitor.keyring",
-    require => Exec['generate-admin-key']
   }
 
-  #exec { "generate-admin-key": 
-  #  command => "/usr/bin/ceph-authtool /etc/ceph/monitor.keyring --gen-key -n client.admin --set-uid=0 --cap mon 'allow *' --cap osd 'allow *' --cap mds 'allow'",
-  #  require => Exec['generate-monitor-key']
-  #}
+  exec { "generate-admin-key": 
+    command => "/usr/bin/ceph-authtool /etc/ceph/monitor.keyring --gen-key -n client.admin --set-uid=0 --cap mon 'allow *' --cap osd 'allow *' --cap mds 'allow'",
+    require => Exec['generate-monitor-key']
+  }
 
   file { "${fqdn}-ceph-mon-base-directory":
     path   => "/var/lib/ceph/mon",
