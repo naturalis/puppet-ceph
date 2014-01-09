@@ -1,6 +1,5 @@
 define ceph::osd::generate (
 	$disk  		= $title,
-	$id,
 )
 {
   
@@ -10,9 +9,7 @@ define ceph::osd::generate (
     message => 'shit',
   }
 
-  notify {"test2-${disk}":
-    message => $id,
-  }
+  
 
   notify {"osdnumber-${osd_id}-${disk}":
     message => $osd_id,

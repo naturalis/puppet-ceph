@@ -23,9 +23,7 @@ class ceph::osd (
 
   Ini_setting <<| tag == "cephconf-${fsid}" |>>
 
-  ceph::osd::generate{["/dev/sdc","/dev/sdd"] : 
-  	id => reserve_ceph_osd_id(),
-  }
+  ceph::osd::generate{["/dev/sdc","/dev/sdd"] : }
 
   #$osdnumber = reserve_ceph_osd_id()
   
