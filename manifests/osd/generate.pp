@@ -4,6 +4,10 @@ define ceph::osd::generate (
 {
   
   $osd_id = reserve_ceph_osd_id()
+  
+  notify {"test-${disk}":
+    message => 'shit',
+  }
 
   notify {"osdnumber-${osd_id}-${disk}":
     message => $osd_id,
