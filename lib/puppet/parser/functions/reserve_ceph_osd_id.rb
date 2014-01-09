@@ -7,7 +7,7 @@ module Puppet::Parser::Functions
         #return stdout
         #out = IO.popen(["cat","/tmp/test.file"]).read
         #return out
-        file = File.open("/tmp/hn.txt","rb")
+        file = File.open("/tmp/test.file","rb")
         contents = file.read
         return contents
       end
