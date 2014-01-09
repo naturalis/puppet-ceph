@@ -3,7 +3,7 @@ module Puppet::Parser::Functions
       	#keyringfile = args[0]
         #system '/usr/bin/ceph osd create --keyring /tmp/monitor.keyring'
         #system 'cat /tmp/test.file'
-        system 'echo "4"'
+        system '/bin/echo "4"'
         #return keyringfile
       end
     end
