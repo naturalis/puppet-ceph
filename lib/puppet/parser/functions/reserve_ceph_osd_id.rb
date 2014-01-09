@@ -1,6 +1,6 @@
 module Puppet::Parser::Functions
       newfunction(:reserve_ceph_osd_id, :type => :rvalue) do |args|
-        val = `cat /tmp/test.file`
+        val = `ls`
         return '7'
       end
     end
