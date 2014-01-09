@@ -7,5 +7,7 @@ module Puppet::Parser::Functions
         #out = IO.popen(["cat","/tmp/test.file"]).read
         #return out
         result = %x[ls]
+        p result
+        return result
       end
     end
