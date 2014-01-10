@@ -1,20 +1,14 @@
 define ceph::osd::generate (
-	$disk  		= $title,
+	$disk-id 		= $title,
 )
 {
   
-  $osd_id = reserve_ceph_osd_id()
-  
-  notify {"test-${disk}":
-    message => 'shit',
-  }
+  $disk = split($disk-id,'-')[0]
+  $id = split($disk-id,'-')[1]
 
+  notify{$disk:}
+  notify{$id:}
   
-
-  notify {"osdnumber-${osd_id}-${disk}":
-    message => $osd_id,
-    require => File["${fqdn}-osd-temp-keyring"],
-  }
 
 }
 
