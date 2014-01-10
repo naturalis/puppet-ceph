@@ -20,6 +20,6 @@ else:
 	current = myfile.read()
 	myfile = open(fact_file,'wb')
 	new = current + ',' + sys.argv[1] + '-' + osd_id
-	myfile.write(new.trim())
+	myfile.write(new)
 	myfile.close()
 
