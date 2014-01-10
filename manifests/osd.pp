@@ -32,9 +32,16 @@ class ceph::osd (
     require => File["${fqdn}-facter-base-dir"]
   }
 
+  file {"${fqdn}-osd-generate-script":
+    path 	=> "/tmp/generate_ceph_osd_id_fact.py",
+    ensure  => present,
+    content => file('ceph/generate_ceph_osd_id_fact.py')
+    require => File["${fqdn}-facter-sub-dir"]
+  }
+
   Ini_setting <<| tag == "cephconf-${fsid}" |>>
 
-  ceph::osd::prepare{["/dev/sdc","/dev/sdd"] : }
+  ceph::osd::prepare{["sdc","sdd"] : }
 
   #$osdnumber = reserve_ceph_osd_id()
   

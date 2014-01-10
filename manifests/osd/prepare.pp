@@ -4,9 +4,8 @@ define ceph::osd::prepare (
 {
   
   exec { "${fqdn}-${disk}-generate-osd-id-fact":
-    command => "/bin/ls -l /etc/facter/facts.d | /usr/bin/wc -l > /etc/facter/facts.d/${fqdn}-${disk}-osd.txt",
-    require => File["${fqdn}-facter-sub-dir"],
-    unless  => "/usr/bin/test -f /etc/facter/facts.d/${fqdn}-${disk}-osd.txt",
+    command => "/usr/bin/python generate_ceph_osd_id_fact.py ${disk}",
+    require => File["${fqdn}-osd-generate-script"],
+    unless  => "/bin/grep ${disk} /etc/facter/facts.d/ceph-osd-id-array.txt",
   }
-
 }
