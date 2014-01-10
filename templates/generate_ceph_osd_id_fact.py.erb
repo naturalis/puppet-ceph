@@ -13,7 +13,7 @@ print osd_id
 
 if not os.path.isfile(fact_file):
 	myfile = open(fact_file,'wb')
-	myfile.write('ceph-osd-id-array='+sys.argv[1] + '-' + osd_id)
+	myfile.write('ceph_osd_id_array='+sys.argv[1] + '-' + osd_id)
 	myfile.close()
 else:
 	myfile = open(fact_file,'r')

@@ -43,8 +43,9 @@ class ceph::osd (
 
   ceph::osd::prepare{["sdc","sdd"] : }
 
-  if ($ceph-osd-id-array) {
+  if ($ceph_osd_id_array) {
   	notify {'sldkfjl': }
+
   	#$cephosdid = split($ceph-osd-id-array,',')
   	#ceph::osd::generate{ $cephosdid : }
   }
