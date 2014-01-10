@@ -21,15 +21,15 @@ class ceph::osd (
      content => template('ceph/monitor.keyring.erb'),
   }
 
-  file { "${fqdn}-factor-base-dir":
+  file { "${fqdn}-facter-base-dir":
     path   => "/etc/facter",
     ensure => "directory",
   }
 
-  file { "${fqdn}-factor-sib-dir":
+  file { "${fqdn}-facter-sub-dir":
     path    => "/etc/facter/facts.d",
     ensure  => "directory",
-    require => File["${fqdn}-factor-base-dir"]
+    require => File["${fqdn}-facter-base-dir"]
   }
 
   Ini_setting <<| tag == "cephconf-${fsid}" |>>
