@@ -6,8 +6,8 @@ define ceph::osd::generate (
   $disk = $split[0]
   $id = $split[1]
 
-  notify{$disk:}
-  notify{$id:}
+  notify{"disk-{$disk}":}
+  notify{"id-{$disk}":}
   
 
 }
