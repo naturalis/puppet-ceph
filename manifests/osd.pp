@@ -34,8 +34,8 @@ class ceph::osd (
 
   file {"${fqdn}-osd-generate-script":
     path 	=> "/tmp/generate_ceph_osd_id_fact.py",
-    ensure  => present,
-    content => file('ceph/generate_ceph_osd_id_fact.py.erb'),
+    ensure  => 'file',
+    content => template('ceph/generate_ceph_osd_id_fact.py.erb'),
     require => File["${fqdn}-facter-sub-dir"]
   }
 
