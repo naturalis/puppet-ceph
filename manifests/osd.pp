@@ -21,9 +21,20 @@ class ceph::osd (
      content => template('ceph/monitor.keyring.erb'),
   }
 
+  file { "${fqdn}-factor-base-dir":
+    path   => "/etc/facter",
+    ensure => "directory",
+  }
+
+  file { "${fqdn}-factor-sib-dir":
+    path    => "/etc/facter/facts.d",
+    ensure  => "directory",
+    require => File["${fqdn}-factor-base-dir"]
+  }
+
   Ini_setting <<| tag == "cephconf-${fsid}" |>>
 
-  ceph::osd::generate{["/dev/sdc","/dev/sdd"] : }
+  ceph::osd::prepare{["/dev/sdc","/dev/sdd"] : }
 
   #$osdnumber = reserve_ceph_osd_id()
   
