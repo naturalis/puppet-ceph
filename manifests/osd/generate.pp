@@ -98,9 +98,10 @@ define ceph::osd::generate (
   #  require => Exec["${disk}-${id}-umount"]
   #} 
 
-  service {"ceph-service-osd-${disk}-${id}":
+  exec {"ceph-service-osd-${disk}-${id}":
     command => '/usr/sbin/service ceph restart osd',
-    require   => Exec["${disk}-${id}-umount"]
+    require   => Exec["${disk}-${id}-umount"],
   }
+
 }
 
