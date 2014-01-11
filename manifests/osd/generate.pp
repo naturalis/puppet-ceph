@@ -87,7 +87,6 @@ define ceph::osd::generate (
   }
 
   service {"ceph-osd-${disk}-${id}":
-    name 	=> 'ceph',
     ensure  => 'running',
     enable  => 'true',
     start   => 'service ceph start osd',
