@@ -68,8 +68,10 @@ define ceph::osd::generate (
   	require     => Exec["${disk}-${id}-mount"]
   }
 
+
+  #/usr/bin/ceph-osd -i ${id} --mkfs --mkkey
   exec {"${disk}-${id}-mkfs-run-2":
-  	command 	=> "/usr/bin/ceph-osd -i ${id} --mkfs --mkkey",
+  	command 	=> "/bin/ls /",
   	unless 	 	=> "/usr/bin/test -d /var/lib/ceph/osd/ceph-${id}/whoami",
   	require     => Exec["${disk}-${id}-mkfs-run-1"]
   }
