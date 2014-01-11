@@ -64,23 +64,23 @@ define ceph::osd::generate (
 
   exec {"${disk}-${id}-mkfs-run-1":
   	command 	=> "/usr/bin/ceph-osd -i ${id} --mkfs --mkkey",
-  	unless 	 	=> "/usr/bin/test -f /var/lib/ceph/osd/ceph-${id}/ceph",
+  	unless 	 	=> "/usr/bin/test -f /var/lib/ceph/osd/ceph-${id}/keyring",
   	require   => Exec["${disk}-${id}-mount"],
-    returns     => '1',
+    tries     => '2',
   }
 
 
   
-  exec {"${disk}-${id}-mkfs-run-2":
-  	command 	=> "/usr/bin/ceph-osd -i ${id} --mkfs --mkkey",
-  	unless 	 	=> "/usr/bin/test -f /var/lib/ceph/osd/ceph-${id}/keyring",
-  	require     => Exec["${disk}-${id}-mkfs-run-1"]
-  }
+  #exec {"${disk}-${id}-mkfs-run-2":
+ # 	command 	=> "/usr/bin/ceph-osd -i ${id} --mkfs --mkkey",
+ # 	unless 	 	=> "/usr/bin/test -f /var/lib/ceph/osd/ceph-${id}/keyring",
+ # 	require     => Exec["${disk}-${id}-mkfs-run-1"]
+ # }
 
   exec {"${disk}-${id}-keys":
   	command 	=> "/usr/bin/ceph -k /tmp/monitor.keyring auth add osd.${id} osd 'allow *' mon 'allow rwx' -i /var/lib/ceph/osd/ceph-${id}/keyring",
   	unless 	 	=> "/bin/grep 'allow *' /var/lib/ceph/osd/ceph-${id}/keyring",
-  	require     => Exec["${disk}-${id}-mkfs-run-2"]
+  	require     => Exec["${disk}-${id}-mkfs-run-1"]
   }
 
   exec {"${disk}-${id}-umount":
