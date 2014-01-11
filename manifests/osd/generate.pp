@@ -79,7 +79,7 @@ define ceph::osd::generate (
 
   exec {"${disk}-${id}-keys":
   	command 	=> "/usr/bin/ceph -k /tmp/monitor.keyring auth add osd.${id} osd 'allow *' mon 'allow rwx' -i /var/lib/ceph/osd/ceph-${id}/keyring",
-  	unless 	 	=> "/bin/grep 'allow *' /var/lib/ceph/osd/ceph-${id}/keyring",
+  	unless 	 	=> "/bin/grep 'allow' /var/lib/ceph/osd/ceph-${id}/keyring",
   	require     => Exec["${disk}-${id}-mkfs-run-1"]
   }
 
