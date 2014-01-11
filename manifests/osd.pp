@@ -44,7 +44,7 @@ class ceph::osd (
     require => File["${fqdn}-facter-sub-dir"]
   }
 
-  
+  Ini_setting <<| tag == "cephconf-${fsid}" |>>
 
   ceph::osd::prepare{["sdc","sdd"] : }
 
