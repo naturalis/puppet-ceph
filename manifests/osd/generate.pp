@@ -52,7 +52,7 @@ define ceph::osd::generate (
   }
 
   exec {"${disk}-${id}-part":
-  	command => "/sbin/mkfs.xfs -f /dev/{$disk}",
+  	command => "/sbin/mkfs.xfs -f /dev/${disk}",
   	unless  => "/sbin/parted /dev/${disk} print | grep xfs",
   }
 
