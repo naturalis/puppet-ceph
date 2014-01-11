@@ -99,7 +99,7 @@ define ceph::osd::generate (
   #} 
 
   exec {"ceph-service-osd-${disk}-${id}":
-    command => '/usr/sbin/service ceph start osd.${id}',
+    command => "/usr/sbin/service ceph start osd.${id}",
     unless    => "/bin/ps aux | /bin/grep 'ceph-osd -i ${id}' | /bin/grep -v grep",
     require   => Exec["${disk}-${id}-umount"],
   }
