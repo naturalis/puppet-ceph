@@ -63,7 +63,7 @@ define ceph::osd::generate (
   }
 
   exec {"${disk}-${id}-mkfs-run-1":
-  	command 	=> "/usr/bin/ceph-osd -i ${id} --mkfs --mkkey",
+  	command 	=> "/usr/bin/ceph-osd -k /tmp/monitor.keyring -i ${id} --mkfs --mkkey",
   	unless 	 	=> "/usr/bin/test -d /var/lib/ceph/osd/ceph-${id}/whoami",
   	require   => Exec["${disk}-${id}-mount"],
     tries     => '2',
