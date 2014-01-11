@@ -53,35 +53,35 @@ define ceph::osd::generate (
 
   exec {"${disk}-${id}-part":
   	command => "/sbin/mkfs.xfs -f /dev/{$disk}",
-  	unless  => "parted /dev/${disk} print | grep xfs",
+  	unless  => "/sbin/parted /dev/${disk} print | grep xfs",
   }
 
   exec {"${disk}-${id}-mount":
-  	command 	=> "mount -o noatime,inode64 /dev/${disk} /var/lib/ceph/osd/ceph-{$id}",
-  	unless 	 	=> "mount | grep ${disk}",
+  	command 	=> "/bin/mount -o noatime,inode64 /dev/${disk} /var/lib/ceph/osd/ceph-{$id}",
+  	unless 	 	=> "/bin/mount | grep ${disk}",
   	require     => [Exec["${disk}-${id}-part"],File["${fqdn}-{$id}-osd-dir"]]
   }
 
   exec {"${disk}-${id}-mkfs-run-1":
-  	command 	=> "ceph-osd -i ${id} --mkfs --mkkey",
+  	command 	=> "/usr/bin/ceph-osd -i ${id} --mkfs --mkkey",
   	unless 	 	=> "/usr/bin/test -d /var/lib/ceph/osd/ceph-${id}/whoami",
   	require     => Exec["{$disk}-${id}-mount"]
   }
 
   exec {"${disk}-${id}-mkfs-run-2":
-  	command 	=> "ceph-osd -i ${id} --mkfs --mkkey",
+  	command 	=> "/usr/bin/ceph-osd -i ${id} --mkfs --mkkey",
   	unless 	 	=> "/usr/bin/test -d /var/lib/ceph/osd/ceph-${id}/whoami",
   	require     => Exec["${disk}-${id}-mkfs-run-1"]
   }
 
   exec {"${disk}-${id}-keys":
-  	command 	=> "ceph -k /tmp/monitor.keyring auth add osd.${id} osd 'allow *' mon 'allow rwx' -i /var/lib/ceph/osd/ceph-${id}/keyring",
+  	command 	=> "/usr/bin/ceph -k /tmp/monitor.keyring auth add osd.${id} osd 'allow *' mon 'allow rwx' -i /var/lib/ceph/osd/ceph-${id}/keyring",
   	unless 	 	=> "/usr/bin/test -d /var/lib/ceph/osd/ceph-${id}/keyring",
   	require     => Exec["${disk}-${id}-mkfs-run-2"]
   }
 
   exec {"${disk}-${id}-umount":
-  	command 	=> "umount /var/lib/ceph/osd/ceph-${id}",
+  	command 	=> "/bin/umount /var/lib/ceph/osd/ceph-${id}",
   	unless 	 	=> "/usr/bin/test -d /var/lib/ceph/osd/ceph-${id}/keyring",
   	require     => Exec["${disk}-${id}-keys"]
   }
