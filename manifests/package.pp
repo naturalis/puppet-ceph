@@ -12,7 +12,7 @@ class ceph::package(
   exec { 'add-ceph-repo-key':
   	command => "/usr/bin/wget -q -O- 'https://ceph.com/git/?p=ceph.git;a=blob_plain;f=keys/release.asc' | sudo apt-key add -",
   	require => Package ['wget'],
-    uless   => "/usr/bin/apt-key list | grep Ceph"
+    unless   => "/usr/bin/apt-key list | grep Ceph"
   }
   
   exec { 'add-ceph-repo':
