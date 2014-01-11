@@ -85,7 +85,7 @@ define ceph::osd::generate (
 
   exec {"${disk}-${id}-umount":
   	command 	=> "/bin/umount /var/lib/ceph/osd/ceph-${id}",
-  	unless 	 	=> "/usr/bin/test -d /var/lib/ceph/osd/ceph-${id}/keyring",
+  	unless 	 	=> "ps aux | grep 'ceph-osd -i ${id}' | grep -v grep",
   	require   => Exec["${disk}-${id}-keys"]
   }
 
@@ -99,7 +99,8 @@ define ceph::osd::generate (
   #} 
 
   exec {"ceph-service-osd-${disk}-${id}":
-    command => '/usr/sbin/service ceph restart osd',
+    command => '/usr/sbin/service ceph start osd.${id}',
+    unless    => "ps aux | grep 'ceph-osd -i ${id}' | grep -v grep",
     require   => Exec["${disk}-${id}-umount"],
   }
 
