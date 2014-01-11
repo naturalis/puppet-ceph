@@ -59,7 +59,8 @@ class ceph::mon (
     require => [File["${fqdn}-ceph-mon-directory"],
                 File["${fqdn}-temp-keyring"],
                 Ini_setting["ceph-config-${fqdn}-mon-host"],
-                Ini_setting["ceph-config-${fqdn}-mon-ip"]]
+                Ini_setting["ceph-config-${fqdn}-mon-ip"]],
+    unless  => "/usr/bin/test -f /var/lib/ceph/mon/ceph-${hostname}/keyring"
   }
   
   service {"ceph":
