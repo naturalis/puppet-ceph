@@ -59,19 +59,20 @@ define ceph::osd::generate (
   exec {"${disk}-${id}-mount":
   	command 	=> "/bin/mount -o noatime,inode64 /dev/${disk} /var/lib/ceph/osd/ceph-${id}",
   	unless 	 	=> "/bin/mount | grep ${disk}",
-  	require     => [Exec["${disk}-${id}-part"],File["${fqdn}-${id}-osd-dir"]]
+  	require   => [Exec["${disk}-${id}-part"],File["${fqdn}-${id}-osd-dir"]]
   }
 
   exec {"${disk}-${id}-mkfs-run-1":
   	command 	=> "/usr/bin/ceph-osd -i ${id} --mkfs --mkkey",
   	unless 	 	=> "/usr/bin/test -d /var/lib/ceph/osd/ceph-${id}/whoami",
-  	require     => Exec["${disk}-${id}-mount"]
+  	require   => Exec["${disk}-${id}-mount"],
+    returns   => '1',
   }
 
 
-  #/usr/bin/ceph-osd -i ${id} --mkfs --mkkey
+  #
   exec {"${disk}-${id}-mkfs-run-2":
-  	command 	=> "/bin/ls /",
+  	command 	=> "/usr/bin/ceph-osd -i ${id} --mkfs --mkkey",
   	unless 	 	=> "/usr/bin/test -d /var/lib/ceph/osd/ceph-${id}/whoami",
   	require     => Exec["${disk}-${id}-mkfs-run-1"]
   }
@@ -85,7 +86,7 @@ define ceph::osd::generate (
   exec {"${disk}-${id}-umount":
   	command 	=> "/bin/umount /var/lib/ceph/osd/ceph-${id}",
   	unless 	 	=> "/usr/bin/test -d /var/lib/ceph/osd/ceph-${id}/keyring",
-  	require     => Exec["${disk}-${id}-keys"]
+  	require   => Exec["${disk}-${id}-keys"]
   }
 
   service {"ceph-osd-${disk}-${id}":
