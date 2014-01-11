@@ -44,5 +44,56 @@ define ceph::osd::generate (
   }
 
   Ini_setting <<| tag == "cephconf-${fsid}" |>>
+
+  file { "${fqdn}-{$id}-osd-dir":
+    path  	=> "/var/lib/ceph/osd/ceph-{$id}",
+    ensure 	=> "directory",
+    require => File["${fqdn}-osd-base-dir"],
+  }
+
+  exec {"${disk}-${id}-part":
+  	command => "/sbin/mkfs.xfs -f /dev/{$disk}",
+  	unless  => "parted /dev/${disk} print | grep xfs",
+  }
+
+  exec {"${disk}-${id}-mount":
+  	command 	=> "mount -o noatime,inode64 /dev/${disk} /var/lib/ceph/osd/ceph-{$id}",
+  	unless 	 	=> "mount | grep ${disk}",
+  	require     => [Exec["${disk}-${id}-part"],File["${fqdn}-{$id}-osd-dir"]]
+  }
+
+  exec {"${disk}-${id}-mkfs-run-1":
+  	command 	=> "ceph-osd -i ${id} --mkfs --mkkey",
+  	unless 	 	=> "/usr/bin/test -d /var/lib/ceph/osd/ceph-${id}/whoami",
+  	require     => Exec["{$disk}-${id}-mount"]
+  }
+
+  exec {"${disk}-${id}-mkfs-run-2":
+  	command 	=> "ceph-osd -i ${id} --mkfs --mkkey",
+  	unless 	 	=> "/usr/bin/test -d /var/lib/ceph/osd/ceph-${id}/whoami",
+  	require     => Exec["${disk}-${id}-mkfs-run-1"]
+  }
+
+  exec {"${disk}-${id}-keys":
+  	command 	=> "ceph -k /tmp/monitor.keyring auth add osd.${id} osd 'allow *' mon 'allow rwx' -i /var/lib/ceph/osd/ceph-${id}/keyring",
+  	unless 	 	=> "/usr/bin/test -d /var/lib/ceph/osd/ceph-${id}/keyring",
+  	require     => Exec["${disk}-${id}-mkfs-run-2"]
+  }
+
+  exec {"${disk}-${id}-umount":
+  	command 	=> "umount /var/lib/ceph/osd/ceph-${id}",
+  	unless 	 	=> "/usr/bin/test -d /var/lib/ceph/osd/ceph-${id}/keyring",
+  	require     => Exec["${disk}-${id}-keys"]
+  }
+
+  service {"ceph-osd-${disk}-${id}":
+    name 	=> 'ceph',
+    ensure  => 'running',
+    enable  => 'true',
+    start   => 'service ceph start osd',
+    stop    => 'service ceph stop osd',
+    restart => 'service ceph restart osd',
+    require => Exec["${disk}-${id}-umount"]
+  } 
 }
 

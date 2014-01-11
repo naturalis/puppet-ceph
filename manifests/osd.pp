@@ -26,6 +26,11 @@ class ceph::osd (
     ensure => "directory",
   }
 
+  file { "${fqdn}-osd-base-dir":
+    path   => "/var/lib/ceph/osd",
+    ensure => "directory",
+  }
+
   file { "${fqdn}-facter-sub-dir":
     path    => "/etc/facter/facts.d",
     ensure  => "directory",
