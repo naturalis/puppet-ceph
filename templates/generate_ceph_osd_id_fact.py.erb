@@ -7,7 +7,7 @@ import subprocess
 fact_file = "/etc/facter/facts.d/ceph-osd-id-array.txt"
 
 
-osd_id = subprocess.Popen(["/usr/bin/ceph", "osd","create"],stdout=subprocess.PIPE).communicate()[0]
+osd_id = subprocess.Popen(["/usr/bin/ceph", "osd","create","--keyring","/tmp/monitor.keyring"],stdout=subprocess.PIPE).communicate()[0]
 osd_id = osd_id.split('\n')[0]
 #print osd_id
 
