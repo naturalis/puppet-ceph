@@ -63,7 +63,7 @@ define ceph::osd::generate (
   }
 
   exec {"${disk}-${id}-mkfs-run-1":
-  	command 	=> "/usr/bin/ceph-osd -k /tmp/monitor.keyring -i ${id} --mkfs --mkkey",
+  	command 	=> "/usr/bin/ceph-osd -i ${id} --mkfs --mkkey -k /var/lib/ceph/osd/ceph-${id}/keyring",
   	unless 	 	=> "/usr/bin/test -d /var/lib/ceph/osd/ceph-${id}/whoami",
   	require   => Exec["${disk}-${id}-mount"],
     tries     => '2',
@@ -79,7 +79,7 @@ define ceph::osd::generate (
 
   exec {"${disk}-${id}-keys":
   	command 	=> "/usr/bin/ceph -k /tmp/monitor.keyring auth add osd.${id} osd 'allow *' mon 'allow rwx' -i /var/lib/ceph/osd/ceph-${id}/keyring",
-  	unless 	 	=> "/usr/bin/test -d /var/lib/ceph/osd/ceph-${id}/keyring",
+  	unless 	 	=> "/bin/grep 'allow *' /var/lib/ceph/osd/ceph-${id}/keyring",
   	require     => Exec["${disk}-${id}-mkfs-run-1"]
   }
 
