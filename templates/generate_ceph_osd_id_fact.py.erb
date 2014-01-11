@@ -7,9 +7,9 @@ import subprocess
 fact_file = "/etc/facter/facts.d/ceph-osd-id-array.txt"
 
 
-osd_id = subprocess.Popen(["wc", "-l","/tmp/test"],stdout=subprocess.PIPE).communicate()[0]
-osd_id = osd_id.split('\n')[0].split(' ')[0]
-print osd_id
+osd_id = subprocess.Popen(["/usr/bin/ceph", "osd","create"],stdout=subprocess.PIPE).communicate()[0]
+osd_id = osd_id.split('\n')[0]
+#print osd_id
 
 if not os.path.isfile(fact_file):
 	myfile = open(fact_file,'wb')
