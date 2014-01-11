@@ -7,7 +7,7 @@ define ceph::osd::generate (
   $id = $split[1]
 
   
-  @@ini_setting { "ceph-config-${fqdn}-osd-{$disk}-{$id}-mount":
+  @@ini_setting { "ceph-config-${fqdn}-osd-${disk}-${id}-mount":
       path    => '/etc/ceph/ceph.conf',
       section => "osd",
       setting => "osd mount options" ,
@@ -16,7 +16,7 @@ define ceph::osd::generate (
       tag     => "cephconf-${fsid}"
   }
 
-  @@ini_setting { "ceph-config-${fqdn}-osd-{$disk}-{$id}-fs":
+  @@ini_setting { "ceph-config-${fqdn}-osd-${disk}-${id}-fs":
       path    => '/etc/ceph/ceph.conf',
       section => "osd",
       setting => "osd mkfs type" ,
@@ -25,7 +25,7 @@ define ceph::osd::generate (
       tag     => "cephconf-${fsid}"
   }
 
-  @@ini_setting { "ceph-config-${fqdn}-osd-{$disk}-{$id}-host":
+  @@ini_setting { "ceph-config-${fqdn}-osd-${disk}-${id}-host":
       path    => '/etc/ceph/ceph.conf',
       section => "osd.${id}",
       setting => "host" ,
@@ -34,7 +34,7 @@ define ceph::osd::generate (
       tag     => "cephconf-${fsid}"
   }
   
-  @@ini_setting { "ceph-config-${fqdn}-osd-{$disk}-{$id}-dev":
+  @@ini_setting { "ceph-config-${fqdn}-osd-${disk}-${id}-dev":
       path    => '/etc/ceph/ceph.conf',
       section => "osd.${id}",
       setting => "devs" ,
@@ -45,8 +45,8 @@ define ceph::osd::generate (
 
   Ini_setting <<| tag == "cephconf-${fsid}" |>>
 
-  file { "${fqdn}-{$id}-osd-dir":
-    path  	=> "/var/lib/ceph/osd/ceph-{$id}",
+  file { "${fqdn}-${id}-osd-dir":
+    path  	=> "/var/lib/ceph/osd/ceph-${id}",
     ensure 	=> "directory",
     require => File["${fqdn}-osd-base-dir"],
   }
@@ -57,9 +57,9 @@ define ceph::osd::generate (
   }
 
   exec {"${disk}-${id}-mount":
-  	command 	=> "/bin/mount -o noatime,inode64 /dev/${disk} /var/lib/ceph/osd/ceph-{$id}",
+  	command 	=> "/bin/mount -o noatime,inode64 /dev/${disk} /var/lib/ceph/osd/ceph-${id}",
   	unless 	 	=> "/bin/mount | grep ${disk}",
-  	require     => [Exec["${disk}-${id}-part"],File["${fqdn}-{$id}-osd-dir"]]
+  	require     => [Exec["${disk}-${id}-part"],File["${fqdn}-${id}-osd-dir"]]
   }
 
   exec {"${disk}-${id}-mkfs-run-1":
