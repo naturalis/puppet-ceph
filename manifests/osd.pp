@@ -46,7 +46,8 @@ class ceph::osd (
 
   Ini_setting <<| tag == "cephconf-${fsid}" |>>
 
-  ceph::osd::prepare{["sdc","sdd"] : }
+  $disks_array = split($disks,',')
+  ceph::osd::prepare{$disks_array: }
 
   if ($ceph_osd_id_array) {
   	#notify {'sldkfjl': }
