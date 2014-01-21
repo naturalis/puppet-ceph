@@ -6,7 +6,9 @@ define ceph::osd::generate (
   $disk = $split[0]
   $id = $split[1]
 
-  
+  $rack = $ceph::osd::datacenter
+  $dc = $ceph::osd:room
+
   @@ini_setting { "ceph-config-${fqdn}-osd-${disk}-${id}-mount":
       path    => '/etc/ceph/ceph.conf',
       section => "osd",
@@ -79,7 +81,7 @@ define ceph::osd::generate (
 
 
   exec {"${disk}-${id}-crush-location":
-    command   => "ceph osd crush set osd.${id} 1.0 root=default datacenter=${ceph::osd::datacenter} rack=${ceph::osd:room} host=${::hostname}",
+    command   => "ceph osd crush set osd.${id} 1.0 root=default datacenter=${dc} rack=${rack} host=${::hostname}",
     unless    => "/usr/bin/ceph -k /tmp/monitor.keyring osd tree | /bin/grep osd.0 | /bin/grep -P '${id}\t1'",
     require     => Exec["${disk}-${id}-mkfs-run-1"]
   }
