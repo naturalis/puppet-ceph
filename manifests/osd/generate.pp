@@ -83,7 +83,7 @@ define ceph::osd::generate (
 
 
   exec {"${disk}-${id}-crush-location":
-    command   => "ceph osd crush set osd.${id} 1.0 root=default datacenter=${datacenter} rack=${rack} host=${hostname}",
+    command   => "/usr/bin/ceph -k /tmp/monitor.keyring osd crush set osd.${id} 1.0 root=default datacenter=${datacenter} rack=${rack} host=${hostname}",
     unless    => "/usr/bin/ceph -k /tmp/monitor.keyring osd tree | /bin/grep osd.0 | /bin/grep -P '${id}\t1'",
     require   => Exec["${disk}-${id}-mkfs-run-1"]
   }
