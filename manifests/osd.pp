@@ -7,8 +7,6 @@ class ceph::osd (
 	$manual_crushmap	= 'false',
 	$crush_root			= 'default',
 	$datacenter,
-	$room,
-	$row,
 	$rack,
 	$disks,
 
@@ -50,8 +48,6 @@ class ceph::osd (
   ceph::osd::prepare{$disks_array: }
 
   if ($ceph_osd_id_array) {
-  	#notify {'sldkfjl': }
-
   	$ceph_osd_id = split($ceph_osd_id_array,',')
   	ceph::osd::generate{ $ceph_osd_id : }
   }

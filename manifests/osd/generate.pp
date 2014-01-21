@@ -77,10 +77,17 @@ define ceph::osd::generate (
  # 	require     => Exec["${disk}-${id}-mkfs-run-1"]
  # }
 
+
+  exec {"${disk}-${id}-crush-location":
+    command   => "ceph osd crush set osd.${id} 1.0 root=default datacenter=${ceph::osd::datacenter} rack=${ceph::osd:room} host=${::hostname}",
+    unless    => "/usr/bin/ceph -k /tmp/monitor.keyring osd tree | /bin/grep osd.0 | /bin/grep -P '${id}\t1'",
+    require     => Exec["${disk}-${id}-mkfs-run-1"]
+  }
+
   exec {"${disk}-${id}-keys":
   	command 	=> "/usr/bin/ceph -k /tmp/monitor.keyring auth add osd.${id} osd 'allow *' mon 'allow rwx' -i /var/lib/ceph/osd/ceph-${id}/keyring",
   	unless 	 	=> "/usr/bin/ceph auth get osd.${id}  -k /tmp/monitor.keyring | /bin/grep 'caps osd'",
-  	require     => Exec["${disk}-${id}-mkfs-run-1"]
+  	require     =>[Exec["${disk}-${id}-mkfs-run-1"],Exec["${disk}-${id}-crush-location"]]
   }
 
   exec {"${disk}-${id}-umount":
