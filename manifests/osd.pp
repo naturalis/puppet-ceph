@@ -49,7 +49,10 @@ class ceph::osd (
 
   if ($ceph_osd_id_array) {
   	$ceph_osd_id = split($ceph_osd_id_array,',')
-  	ceph::osd::generate{ $ceph_osd_id : }
+  	ceph::osd::generate{ $ceph_osd_id : 
+      rack        => $rack,
+      datacenter  => $datacenter,
+    }
   }
 
   #$osdnumber = reserve_ceph_osd_id()
