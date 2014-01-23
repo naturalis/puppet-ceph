@@ -28,10 +28,8 @@ deb http://gitbuilder.ceph.com/apache2-deb-precise-x86_64-basic/ref/master/ prec
     require => File['/etc/apt/sources.list.d/radosgw.list'],
   }
   
-  package { ['apache2','libapache2-mod-fastcgi'] :
-    ensure => installed,
+  exec { '/usr/bin/apt-get install -y -q --force-yes apache2 libapache-mod-fastcgi':
     require => Exec['update-apt-get'],
-    install_options => '--force-yes',
   }
 
 
