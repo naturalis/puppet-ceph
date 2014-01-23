@@ -1,45 +1,39 @@
 # == Class: ceph
 #
 # Full description of class ceph here.
+# 
+# TODO
+# * Finish Rados Gateway
+# * More parameters
+# * Implement manual ceph.conf injection
 #
-# === Parameters
+# This ceph puppet module installs ceph monitors and osd hosts. 
+# On the monitor and osd make sure the Ceph::Package is installed first.
+# The ceph.conf is distributed by exported resources. 
+# Required parameters are osd host and monitor are:
+# * fsid => generate with monmaptool
+# * monitorkey => generate with ceph auth
+# * adminkey   => generate with ceph auth
+# Additional required parameter for osd host is
+# * disks, this and comma seperated string with your disk devices for ceph osds.
+#   do not use /dev/sdd, just sdd,sde,sdf
+# * datacenter
+# * rack
 #
-# Document parameters here.
-#
-# [*sample_parameter*]
-#   Explanation of what this parameter affects and what it defaults to.
-#   e.g. "Specify one or more upstream ntp servers as an array."
-#
-# === Variables
-#
-# Here you should define a list of variables that this module would require.
-#
-# [*sample_variable*]
-#   Explanation of how this variable affects the funtion of this class and if
-#   it has a default. e.g. "The parameter enc_ntp_servers must be set by the
-#   External Node Classifier as a comma separated list of hostnames." (Note,
-#   global variables should be avoided in favor of class parameters as
-#   of Puppet 2.6.)
-#
-# === Examples
-#
-#  class { ceph:
-#    servers => [ 'pool.ntp.org', 'ntp.local.company.com' ],
-#  }
+# First deploy 3 monitors 
+# Then deploy and osd and run puppet twice. First run is to reserve the osd spot.
+# Second run is for creating the osd's and start the services. 
 #
 # === Authors
 #
-# Author Name <author@domain.com>
+# Atze de Vries <atze.devries@naturalis.nl>
 #
 # === Copyright
 #
-# Copyright 2014 Your name here, unless otherwise noted.
+# Copyright 2014 Atze de Vries.
 #
 class ceph {
 
-	# JOBS #
-	# * install repository
-	# * install ceph package
-	# * generate keyring
+	
 
 }

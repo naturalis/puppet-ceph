@@ -35,7 +35,13 @@ deb http://gitbuilder.ceph.com/apache2-deb-precise-x86_64-basic/ref/master/ prec
   #exec { '/usr/bin/apt-get install -y -q --force-yes apache2':
   #  require => Exec['update-apt-get'],
   #}
-  
+  exec {'get-new-lib-curl':
+    command => '/usr/bin/wget -q http://security.ubuntu.com/ubuntu/pool/main/c/curl/libcurl3_7.29.0-1ubuntu3.4_amd64.deb',
+    cwd     => '/tmp',
+    require => Package ['wget'],
+  }
+
+  exe
   force-apt-install { ['apache2','libapache2-mod-fastcgi']:
     require => Exec['update-apt-get'],
   }
