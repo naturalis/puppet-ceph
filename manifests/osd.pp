@@ -52,6 +52,7 @@ class ceph::osd (
   	ceph::osd::generate{ $ceph_osd_id : 
       rack        => $rack,
       datacenter  => $datacenter,
+      fsid        => $fsid,
     }
   }
 

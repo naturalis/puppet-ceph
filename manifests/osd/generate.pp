@@ -2,6 +2,7 @@ define ceph::osd::generate (
 	$disk_id 		= $title,
   $rack,
   $datacenter,
+  $fsid,
 )
 {
   $split = split($disk_id,'-')
