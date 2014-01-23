@@ -36,7 +36,7 @@ deb http://gitbuilder.ceph.com/apache2-deb-precise-x86_64-basic/ref/master/ prec
   #  require => Exec['update-apt-get'],
   #}
   
-  force-apt-install { 'libapache2-mod-fastcgi' :
+  force-apt-install { 'libapache2-mod-fastcgi':
     require => Exec['update-apt-get'],
   }
 
