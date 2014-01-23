@@ -15,7 +15,7 @@ Required parameters are osd host and monitor are:
 * adminkey   => generate with ceph auth
 
 Additional required parameter for osd host is
-* disks, this and comma seperated string with your disk devices for ceph osds.
+* disks => this and comma seperated string with your disk devices for ceph osds.
   do not use /dev/sdd, just sdd,sde,sdf
 * datacenter
 * rack
