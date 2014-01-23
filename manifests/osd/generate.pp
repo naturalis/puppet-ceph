@@ -8,6 +8,7 @@ define ceph::osd::generate (
   $split = split($disk_id,'-')
   $disk = $split[0]
   $id = $split[1]
+  notify{$fsid:}
 
   #$rack = $ceph::osd::datacenter
   #$dc = $ceph::osd:room
