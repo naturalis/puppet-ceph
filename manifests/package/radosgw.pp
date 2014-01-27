@@ -36,7 +36,7 @@ deb http://gitbuilder.ceph.com/apache2-deb-precise-x86_64-basic/ref/master/ prec
   #}
     
  force-apt-install { ['apache2','libapache2-mod-fastcgi']:
-    require => Exec['update-apt-gett-radowsgw'],
+    require => Exec['update-apt-get-radowsgw'],
   }
 
   define force-apt-install( $package = $title, ) {
