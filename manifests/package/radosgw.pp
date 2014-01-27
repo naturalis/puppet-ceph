@@ -22,7 +22,7 @@ class ceph::package::radosgw(
 deb http://gitbuilder.ceph.com/apache2-deb-precise-x86_64-basic/ref/master/ precise main',
   }
 
-  exec { 'update-apt-get':
+  exec { 'update-apt-get-radowsgw':
     command => '/usr/bin/apt-get update',
     require => File['/etc/apt/sources.list.d/radosgw.list'],
   }
@@ -36,7 +36,7 @@ deb http://gitbuilder.ceph.com/apache2-deb-precise-x86_64-basic/ref/master/ prec
   #}
     
  force-apt-install { ['apache2','libapache2-mod-fastcgi']:
-    require => Exec['update-apt-get'],
+    require => Exec['update-apt-gett-radowsgw'],
   }
 
   define force-apt-install( $package = $title, ) {
