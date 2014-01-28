@@ -1,0 +1,26 @@
+<IfModule mod_fastcgi.c>
+	FastCgiExternalServer /var/www/radosgw.fcgi -socket /tmp/radosgw.sock
+</IfModule>
+<VirtualHost *:80>
+	ServerName <%= @rados_server_name %>
+	ServerAlias <%= @rados_server_alias %>
+	ServerAdmin <%= @rados_server_webmaster_alias %>
+	DocumentRoot /var/www
+	<IfModule mod_rewrite.c>
+		RewriteEngine On
+		RewriteRule ^/(.*) /radosgw.fcgi?%{QUERY_STRING}
+		[E=HTTP_AUTHORIZATION:%{HTTP:Authorization},L]
+	</IfModule>
+	<IfModule mod_fastcgi.c>
+		<Directory /var/www>
+			Options +ExecCGI
+			AllowOverride All
+			SetHandler fastcgi-script
+			Order allow,deny
+			Allow from all
+			AuthBasicAuthoritative Off
+		</Directory>
+	</IfModule>
+	AllowEncodedSlashes On
+	ServerSignature Off
+</VirtualHost>
