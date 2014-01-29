@@ -45,7 +45,8 @@ class ceph::radosgw (
   }
 
   service {'apache2': 
-    ensure => 'enabled'
+    ensure => 'running',
+    enable => true,
   }
 
   file {['/var/lib/ceph','/var/lib/ceph/radosgw',"/var/lib/ceph/ceph-radosgw.${hostname}"]:
