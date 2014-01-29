@@ -64,8 +64,13 @@ class ceph::radosgw (
     mode     => '0660',
     require  => File["/var/lib/ceph/ceph-radosgw.${hostname}"],
   }
-
-  Ini_setting <<| tag == "cephconf-${fsid}" |>> 
+ 
+  file {"/etc/ceph":
+    ensure  => directory,
+  }
+  Ini_setting <<| tag == "cephconf-${fsid}" |>> {
+    require => File['/etc/ceph']
+  } 
 
 
   
