@@ -36,7 +36,7 @@ class ceph::radosgw (
  
   exec {'/usr/sbin/a2enmod rewrite':
     unless => '/bin/test -h /etc/apache2/mods-enabled/rewrite.load',
-    notice => Service['apache2'],
+    notify => Service['apache2'],
   }
 
   exec {'/usr/sbin/a2enmod fastcgi':
