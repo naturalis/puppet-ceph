@@ -10,16 +10,16 @@ class ceph::radosgw (
   file {'/etc/apache2/sites-available/radosgw.vhost':
    	ensure	=> present,
   	content	=> template('ceph/radosgw.vhost.erb'),
-    owner	=> 'root',
+    owner	  => 'root',
     group 	=> 'www-data',
-    mode	=> '0660',
+    mode    => '0660',
   }
 
   file {'/var/www/radosgw.fcgi':
-  	ensure	=> present,
-  	content	=> template('ceph/radosgw.fcgi.erb'),
-  	owner	=> 'root',
-  	groups	=> 'www-data',
-  	mode	=> '0770',
+  	ensure   => present,
+  	content  => template('ceph/radosgw.fcgi.erb'),
+  	owner    => 'root',:
+    group    => 'www-data',
+  	mode     => '0770',
   }
 }
