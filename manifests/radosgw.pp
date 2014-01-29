@@ -26,12 +26,12 @@ class ceph::radosgw (
   exec {'/usr/sbin/a2ensite radosgw.vhost':
     unless  => '/bin/test -h /etc/apache2/sites-enabled/radosgw.vhost',
     require => File['/etc/apache2/sites-available/radosgw.vhost'],
-    notice  => Service['apache2'],
+    notify  => Service['apache2'],
   }
 
   exec {'/usr/sbin/a2dissite default':
     onlyif  => '/bin/test -h /etc/apache2/sites-enabled/000-default',
-    notice  => Service['apache2'],
+    notify  => Service['apache2'],
   }
  
   exec {'/usr/sbin/a2enmod rewrite':
@@ -41,7 +41,7 @@ class ceph::radosgw (
 
   exec {'/usr/sbin/a2enmod fastcgi':
     unless => '/bin/test -h /etc/apache2/mods-enabled/fastcgi.load',
-    notice => Service['apache2']
+    notify => Service['apache2']
   }
 
   service {'apache2': 
