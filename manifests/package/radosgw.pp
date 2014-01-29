@@ -47,6 +47,6 @@ deb http://gitbuilder.ceph.com/apache2-deb-precise-x86_64-basic/ref/master/ prec
     exec { "/usr/bin/apt-get install -y -q --force-yes ${package}":
       unless =>  "/usr/bin/apt-get install -y -q --force-yes ${package} | /bin/grep newest",
     }
-  } 
+  }
   
 }

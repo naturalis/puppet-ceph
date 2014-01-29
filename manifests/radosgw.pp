@@ -1,5 +1,5 @@
 class ceph::radosgw (
-  
+  $fsid,
   $rados_server_webmaster_alias	= 'aut@naturalis.nl',
 )
 {
@@ -64,6 +64,9 @@ class ceph::radosgw (
     mode     => '0660',
     require  => File["/var/lib/ceph/ceph-radosgw.${hostname}"],
   }
+
+  Ini_setting <<| tag == "cephconf-${fsid}" |>> 
+
 
   
 
