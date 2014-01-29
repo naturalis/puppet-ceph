@@ -5,7 +5,7 @@ class ceph::radosgw (
 {
   
   $rados_server_name = $fqdn
-  $rados_server_alias = $fqdn
+  $rados_server_alias = $hostname
 
   file {'/etc/apache2/sites-available/radosgw.vhost':
    	ensure	=> present,
