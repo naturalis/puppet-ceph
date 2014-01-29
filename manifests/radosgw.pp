@@ -18,7 +18,7 @@ class ceph::radosgw (
   file {'/var/www/radosgw.fcgi':
   	ensure   => present,
   	content  => template('ceph/radosgw.fcgi.erb'),
-  	owner    => 'root',:
+  	owner    => 'root',
     group    => 'www-data',
   	mode     => '0770',
   }
