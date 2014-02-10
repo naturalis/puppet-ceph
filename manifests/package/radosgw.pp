@@ -16,30 +16,21 @@ class ceph::package::radosgw(
  # }
   
 
-  #file{ '/etc/apt/sources.list.d/radosgw.list':
-  #  ensure  => present,
-  #  content => 'deb http://gitbuilder.ceph.com/libapache-mod-fastcgi-deb-precise-x86_64-basic/ref/master/ precise main
-#deb http://gitbuilder.ceph.com/apache2-deb-precise-x86_64-basic/ref/master/ precise main',
- # }
+  file{ '/etc/apt/sources.list.d/radosgw.list':
+    ensure  => present,
+    content => 'deb http://gitbuilder.ceph.com/libapache-mod-fastcgi-deb-precise-x86_64-basic/ref/master/ precise main
+deb http://gitbuilder.ceph.com/apache2-deb-precise-x86_64-basic/ref/master/ precise main',
+  }
 
-  #exec { 'update-apt-get-radowsgw':
-  #  command => '/usr/bin/apt-get update',
-  #  require => File['/etc/apt/sources.list.d/radosgw.list'],
-  #}
+  exec { 'update-apt-get-radowsgw':
+    command => '/usr/bin/apt-get update',
+    require => File['/etc/apt/sources.list.d/radosgw.list'],
+  }
 
   package {'radosgw':
     ensure => installed,
   }
   
-  package {'apache2':
-    ensure => installed,
-  }
-
-  package {'libapache2-mod-fastcgi':
-    ensure  => installed,
-    require => Package['apache2'],
-  }
-
   #exec { '/usr/bin/apt-get install -y -q --force-yes libapache2-mod-fastcgi':
   #  require => Exec['update-apt-get'],
   #}
@@ -48,14 +39,14 @@ class ceph::package::radosgw(
   #  require => Exec['update-apt-get'],
   #}
     
- #force-apt-install { ['apache2','libapache2-mod-fastcgi']:
-  #  require => Exec['update-apt-get-radowsgw'],
-  #}
+ force-apt-install { ['apache2','libapache2-mod-fastcgi']:
+    require => Exec['update-apt-get-radowsgw'],
+  }
 
-  #define force-apt-install( $package = $title, ) {
-  #  exec { "/usr/bin/apt-get install -y -q --force-yes ${package}":
-  #    unless =>  "/usr/bin/apt-get install -y -q --force-yes ${package} | /bin/grep newest",
-  #  }
-  #}
+  define force-apt-install( $package = $title, ) {
+    exec { "/usr/bin/apt-get install -y -q --force-yes ${package}":
+      unless =>  "/usr/bin/apt-get install -y -q --force-yes ${package} | /bin/grep newest",
+    }
+  }
   
 }
