@@ -69,7 +69,7 @@ class ceph::radosgw (
     ensure  => directory,
   }
   Ini_setting <<| tag == "cephconf-${fsid}" |>> {
-    require => File['/etc/ceph']
+    require => File['/etc/ceph'],
   } 
 
 
